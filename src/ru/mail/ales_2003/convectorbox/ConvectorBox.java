@@ -2,6 +2,9 @@
 package ru.mail.ales_2003.convectorbox;
 import java.io.*;
 import java.util.*;
+import ru.mail.ales_2003.convectorbox.compare.LengthCompare;
+import ru.mail.ales_2003.convectorbox.compare.MultiSort;
+import ru.mail.ales_2003.convectorbox.compare.WidthCompare;
 
 
 /**
@@ -27,6 +30,10 @@ public class ConvectorBox {
         convectorSet.addAll(convectorList);
         System.out.println("TREESET====================================");
         printConvectors(convectorSet);
+        MultiSort ms = new MultiSort();
+        LengthCompare lC = new LengthCompare();
+        WidthCompare wC = new WidthCompare();
+        ms.secondarySort(convectorList, lC, wC);
     }
     
     void getConvectors() {
@@ -37,13 +44,14 @@ public class ConvectorBox {
             //построчно получаем из файла строку и...
             while ((line = reader.readLine()) != null) {
                 //применяем к стоке метод по ее разбиению на элементы(и добавлению в массив String),
-                //преобразование массива String в массив Integer
+                //преобразованию массива String в массив Integer, созданию на основе последнего объекта Convector
+                // и добавление этого объекта в коллекцию convectorList
                 addConvector(line);
             }
         } catch (Exception ex) { ex.printStackTrace(); }
     }
     
-    //метод принимает строку из файла "Convectors.csv"
+    //метод принимает строку из файла "Convectors.csv", преобразует ее в объект и добавляет в коллекцию
     void addConvector(String lineToParse) {
         //разбиваем строку на лексемы, разделенные знаком ";"  и передаем в массив String
         String[] stringValues = lineToParse.split(";");
